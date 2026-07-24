@@ -400,37 +400,6 @@ Merge remote-tracking branch 'origin/dev'
 The updated README changes appeared on the GitHub main branch.
 ```
 
-# Completed CI Pipeline Checklist
-
-## Job 1 - CI Test
-
-✅ Jenkins job created  
-✅ GitHub repository connected  
-✅ SSH credentials configured  
-✅ GitHub webhook configured  
-✅ Push triggers Jenkins automatically  
-✅ Automated tests run successfully  
-✅ Job 1 triggers Job 2  
-
----
-
-## Job 2 - CI Merge
-
-✅ Jenkins job created  
-✅ Dev branch connected  
-✅ Job triggered after successful Job 1 build  
-✅ SSH Agent configured  
-✅ Dev branch merged into main  
-✅ Jenkins pushed changes to GitHub main  
-✅ Merge completed successfully  
-
----
-
-# Current Pipeline Status
-
-The Continuous Integration pipeline is complete.
-
-Next step:
 
 # Job 3 - Continuous Deployment (CD)
 
@@ -600,3 +569,43 @@ This confirmed:
 ✅ Job 3 deployed automatically
 ✅ EC2 application updated
 ✅ PM2 restarted the latest version
+
+
+
+# Completed CI/CD Pipeline Checklist
+
+## Job 1 - CI Test
+
+✅ Jenkins job created  
+✅ GitHub repository connected  
+✅ SSH credentials configured  
+✅ GitHub webhook configured  
+✅ Push triggers Jenkins automatically  
+✅ Automated tests run successfully  
+✅ Job 1 triggers Job 2  
+
+
+## Job 2 - CI Merge
+
+✅ Jenkins job created  
+✅ Dev branch connected  
+✅ Job triggered after successful Job 1 build  
+✅ SSH Agent configured  
+✅ Dev branch merged into main  
+✅ Jenkins pushed changes to GitHub main  
+✅ Merge completed successfully  
+
+
+## Job 3 - CD Deployment
+
+✅ Jenkins deployment job created  
+✅ AWS EC2 deployment server connected  
+✅ SSH credentials configured for EC2 access  
+✅ Application files copied to EC2 using SCP  
+✅ Node.js dependencies installed using npm install  
+✅ PM2 configured to manage Node.js application  
+✅ Application restarted automatically after deployment  
+✅ Deployment completed successfully  
+✅ Footer timestamp change deployed and verified  
+✅ Frontend UI colour change deployed and verified  
+✅ Latest application version running on AWS EC2  
