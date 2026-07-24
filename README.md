@@ -1,3 +1,27 @@
+# Jenkins CI/CD Pipeline - Tic Tac Toe Application
+
+## Project Overview
+
+This project demonstrates a complete CI/CD pipeline using Jenkins, GitHub, and AWS EC2.
+
+The pipeline automatically:
+
+- Tests application changes
+- Merges approved code into the main branch
+- Deploys the latest version to AWS EC2
+- Updates the live application automatically
+
+The pipeline uses:
+
+- GitHub for source control
+- Jenkins for automation
+- SSH authentication for secure access
+- AWS EC2 for application hosting
+- PM2 for Node.js process management
+
+
+
+
 # Job 1 - Continuous Integration (CI) Test
 
 ## Purpose
