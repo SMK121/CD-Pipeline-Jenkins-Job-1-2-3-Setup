@@ -559,23 +559,6 @@ The first CD test updated the application footer timestamp.
 
 File changed:
 
-```
-app/server.js
-```
-
-Before deployment:
-
-```
-v1.2.0 23/07/2026 17:12
-```
-
-After deployment:
-
-```
-v1.2.0 24/07/2026 14:00
-```
-
----
 
 ## First Deployment Change Screenshot
 
