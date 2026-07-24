@@ -245,8 +245,9 @@ Job 2 is responsible for merging tested changes from the development branch into
 This creates a controlled workflow where:
 
 - Developers work on the `dev` branch.
-- Jenkins tests the changes.
+- Jenkins tests the changes in Job 1.
 - Successful changes are merged into `main`.
+- The updated `main` branch is pushed back to GitHub.
 
 ---
 
@@ -254,9 +255,9 @@ This creates a controlled workflow where:
 
 ## Job Name
 
-```
+
 Suhaib-TTT-Job2-CI-Merge
-```
+
 
 ---
 
@@ -264,83 +265,127 @@ Suhaib-TTT-Job2-CI-Merge
 
 Repository:
 
-```
+
 git@github.com:SMK121/tech610-suhaib-ttt-app-cicd-jenkins.git
-```
+
 
 Branch:
 
-```
+
 */dev
-```
+
 
 Credentials:
 
-```
-suhaib-jenkins-2gh-ttt-app
-```
 
-The job checks out the development branch because this contains the changes that passed testing.
+suhaib-jenkins-2gh-ttt-app
+
+
+The job checks out the development branch because this contains the changes that have successfully passed the CI testing stage.
 
 ---
 
 # Job 2 Trigger Configuration
 
-Job 2 is triggered automatically after Job 1 succeeds.
+Job 2 is triggered automatically after Job 1 completes successfully.
 
-Flow:
+Pipeline flow:
 
-```
+
 Job 1
 (CI Tests Passed)
-        |
-        v
+|
+v
 Job 2
 (CI Merge)
-```
+
 
 Configuration:
 
-```
+
 Build after other projects are built
-```
+
 
 Upstream project:
 
-```
+
 Suhaib-TTT-Job1-CI-Test
-```
+
 
 Condition:
 
-```
+
 Trigger only if build is stable
-```
+
+
+This ensures only tested code moves to the merge stage.
 
 ---
 
-# SSH Agent Configuration
+# Updating Main Branch
 
-SSH Agent was enabled in Jenkins.
+After Job 1 succeeds, Job 2 updates the `main` branch.
 
-Credential used:
+There are two methods that can be used:
 
-```
-suhaib-jenkins-2gh-ttt-app
-(To Read Write To Repo)
-```
-
-This allows Jenkins to:
-
-- Access GitHub securely.
-- Fetch branches.
-- Push merged changes back to GitHub.
+1. **Git Publisher (Preferred Method)**
+2. **Execute Shell Script (Alternative Method)**
 
 ---
 
-# Job 2 Build Script
+# Preferred Method - Git Publisher
 
-The following shell script was added:
+The recommended Jenkins approach is using the **Git Publisher plugin**.
+
+Git Publisher allows Jenkins to automatically push changes back to the remote GitHub repository after the build completes.
+
+Advantages:
+
+- Uses Jenkins built-in Git functionality.
+- Reduces the need for custom shell commands.
+- Easier to maintain and understand.
+- Provides a cleaner CI/CD workflow.
+
+Configuration:
+
+
+Post-build Actions
+|
+v
+Git Publisher
+|
+v
+Push changes to GitHub
+
+
+Git Publisher is configured to:
+
+- Push the merged `main` branch back to GitHub.
+- Use the Jenkins SSH credentials for authentication.
+- Update the remote repository automatically.
+
+Workflow:
+
+
+Job 1 Successful
+|
+v
+Job 2 Merge
+|
+v
+Git Publisher
+|
+v
+GitHub Main Branch Updated
+
+
+---
+
+# Alternative Method - Execute Shell
+
+During development, the merge and push process was also completed using an Execute Shell script.
+
+The following script was added:
 
 ```bash
 echo "Fetching latest branches"
@@ -354,107 +399,85 @@ git merge origin/dev
 
 echo "Pushing merged code to GitHub main branch"
 git push origin main
-```
 
----
+This method manually performs the same process that Git Publisher automates.
 
-# Script Explanation
-
-## Fetch Latest Branches
-
-```bash
+Execute Shell Script Explanation
+Fetch Latest Branches
 git fetch origin
-```
 
 Downloads the latest branch information from GitHub.
 
----
-
-## Switch to Main Branch
-
-```bash
+Switch to Main Branch
 git checkout main
-```
 
 Moves Jenkins to the main branch before performing the merge.
 
----
-
-## Merge Dev into Main
-
-```bash
+Merge Dev into Main
 git merge origin/dev
-```
 
 Merges the remote development branch into main.
 
-`origin/dev` is used because Jenkins only has the remote branch available.
+origin/dev is used because Jenkins only had access to the remote branch.
 
----
-
-## Push Changes
-
-```bash
+Push Changes
 git push origin main
-```
 
 Uploads the updated main branch back to GitHub.
 
----
+SSH Agent Configuration
 
-# Job 2 Troubleshooting
+SSH Agent was enabled in Jenkins.
+
+Credential used:
+
+suhaib-jenkins-2gh-ttt-app
+(To Read and Write Repository Changes)
+
+This allows Jenkins to:
+
+Authenticate securely with GitHub.
+Fetch repository branches.
+Push merged changes back to the remote repository.
+
+No passwords are stored inside the Jenkins job configuration.
+
+Job 2 Troubleshooting
 
 Initially, the merge failed.
 
 Original command:
 
-```bash
 git merge dev
-```
 
 Error:
 
-```
 merge: dev - not something we can merge
-```
 
 Cause:
 
-Jenkins only had:
+Jenkins only had the remote branch available:
 
-```
 origin/dev
-```
-
-available.
 
 It did not have a local:
 
-```
 dev
-```
 
 branch.
 
----
-
-# Fix
+Fix
 
 The command was changed to:
 
-```bash
 git merge origin/dev
-```
 
 After this change, the merge completed successfully.
 
----
-
-# Successful Job 2 Result
+Successful Job 2 Result
 
 Example Jenkins output:
 
-```
 Fetching latest branches
 
 Switching to main branch
@@ -468,23 +491,13 @@ Pushing merged code to GitHub main branch
 Everything up-to-date
 
 Finished: SUCCESS
-```
+GitHub Result
 
----
+After successful completion, Jenkins updated the GitHub main branch.
 
-# GitHub Result
+Example commit:
 
-
-After successful completion, Jenkins merged the development changes into the main branch.
-
-Example GitHub commit:
-
-```
 Merge remote-tracking branch 'origin/dev'
-
-
-The updated README changes appeared on the GitHub main branch.
-```
 
 
 # Jenkins CI/CD Pipeline - Job 3 Continuous Deployment (CD)
@@ -538,7 +551,6 @@ PM2 Node.js Application
     |
     ↓
 Updated Application Available
-```
 
 ---
 
