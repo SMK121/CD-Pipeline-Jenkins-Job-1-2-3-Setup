@@ -49,37 +49,6 @@ AWS EC2 Application Server
 
 ---
 
-# Jenkins Pipeline Stages
-
-## Job 1 - Continuous Integration (CI Testing)
-
-Purpose:
-- Clone the repository
-- Install dependencies
-- Run automated tests
-- Stop the pipeline if tests fail
-
----
-
-## Job 2 - Merge Stage
-
-Purpose:
-- Merge tested changes from dev into main
-- Push approved changes back to GitHub
-
----
-
-## Job 3 - Continuous Deployment (CD)
-
-Purpose:
-- Deploy tested code to AWS EC2
-- Install dependencies
-- Restart the Node.js application using PM2
-
----
-
-
-
 
 # Job 1 - Continuous Integration (CI) Test
 
