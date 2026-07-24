@@ -555,14 +555,8 @@ v1.2.0 24/07/2026 14:00
 
 ## First Deployment Change Screenshot
 
-Insert screenshot here:
-
 
 ![First CD Deployment](https://github.com/user-attachments/assets/b41b075e-b4f5-47ab-8a40-d4145fb8a4aa)
-
-
-
-```
 
 
 ## Second Deployment Change Screenshot
