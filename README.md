@@ -557,8 +557,8 @@ v1.2.0 24/07/2026 14:00
 
 Insert screenshot here:
 
-```
-![First CD Deployment](https://github.com/user-attachments/assets/d589ffa4-3916-4fb1-a0fe-b934c1a34a3a)
+
+![First CD Deployment](https://github.com/user-attachments/assets/b41b075e-b4f5-47ab-8a40-d4145fb8a4aa)
 
 
 
