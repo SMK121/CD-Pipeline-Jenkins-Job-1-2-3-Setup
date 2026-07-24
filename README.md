@@ -49,6 +49,40 @@ AWS EC2 Application Server
 
 ---
 
+## Jenkins Pipeline Stages
+
+### Job 1 – Build & Test (CI)
+
+- Clone the GitHub repository
+- Install dependencies
+- Build the application
+- Run automated tests
+
+If any step fails, the pipeline stops.
+
+---
+
+### Job 2 – Merge
+
+If testing is successful:
+
+- Merge the `dev` branch into `main`
+- Push the updated `main` branch
+
+---
+
+### Job 3 – Deploy (CD)
+
+Jenkins connects to the AWS EC2 instance using SSH.
+
+Typical deployment tasks include:
+
+- Pull latest code
+- Install/update dependencies
+- Restart the application (PM2/Docker)
+
+
+
 
 # Job 1 - Continuous Integration (CI) Test
 
