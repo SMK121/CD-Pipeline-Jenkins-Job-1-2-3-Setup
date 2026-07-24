@@ -383,9 +383,11 @@ GitHub Main Branch Updated
 
 # Alternative Method - Execute Shell
 
-During development, the merge and push process was also completed using an Execute Shell script.
+During development and troubleshooting, the merge and push process was also completed using an Execute Shell script.
 
-The following script was added:
+This method manually performs the same Git operations that Git Publisher automates.
+
+## Execute Shell Script
 
 ```bash
 echo "Fetching latest branches"
@@ -399,10 +401,7 @@ git merge origin/dev
 
 echo "Pushing merged code to GitHub main branch"
 git push origin main
-
-This method manually performs the same process that Git Publisher automates.
-
-Execute Shell Script Explanation
+Script Explanation
 Fetch Latest Branches
 git fetch origin
 
@@ -416,9 +415,9 @@ Moves Jenkins to the main branch before performing the merge.
 Merge Dev into Main
 git merge origin/dev
 
-Merges the remote development branch into main.
+Merges the remote development branch into the main branch.
 
-origin/dev is used because Jenkins only had access to the remote branch.
+origin/dev was used because Jenkins only had access to the remote branch and did not have a local dev branch.
 
 Push Changes
 git push origin main
@@ -432,19 +431,18 @@ SSH Agent was enabled in Jenkins.
 Credential used:
 
 suhaib-jenkins-2gh-ttt-app
-(To Read and Write Repository Changes)
 
-This allows Jenkins to:
+Purpose:
 
 Authenticate securely with GitHub.
-Fetch repository branches.
-Push merged changes back to the remote repository.
+Allow Jenkins to fetch repository branches.
+Allow Jenkins to push merged changes back to GitHub.
 
 No passwords are stored inside the Jenkins job configuration.
 
 Job 2 Troubleshooting
 
-Initially, the merge failed.
+During the first merge attempt, the process failed.
 
 Original command:
 
@@ -453,22 +451,18 @@ git merge dev
 Error:
 
 merge: dev - not something we can merge
+Cause
 
-Cause:
-
-Jenkins only had the remote branch available:
+Jenkins only had access to the remote branch:
 
 origin/dev
 
-It did not have a local:
+It did not have a local branch called:
 
 dev
-
-branch.
-
 Fix
 
-The command was changed to:
+The merge command was changed to:
 
 git merge origin/dev
 
@@ -499,10 +493,9 @@ Example commit:
 
 Merge remote-tracking branch 'origin/dev'
 
----
-The preferred Jenkins approach is Git Publisher because it provides a cleaner automated way to update the main branch. The Execute Shell method was used as an alternative approach to manually perform the same Git operations and troubleshoot the merge process.
+The preferred Jenkins approach is Git Publisher because it provides a cleaner automated way to update the main branch. The Execute Shell method was used as an alternative approach during development and troubleshooting to manually perform the same Git operations.
 
----
+```
 
 # Jenkins CI/CD Pipeline - Job 3 Continuous Deployment (CD)
 
