@@ -401,180 +401,266 @@ The updated README changes appeared on the GitHub main branch.
 ```
 
 
-# Job 3 - Continuous Deployment (CD)
+# Jenkins CI/CD Pipeline - Job 3 Continuous Deployment (CD)
 
-The deployment stage will:
+## Overview
 
-- Copy tested code from Jenkins to AWS EC2.
-- SSH into the EC2 instance.
-- Restart the application.
-- Verify the updated application is running.
+Job 3 is responsible for the **Continuous Deployment (CD)** stage of the Jenkins pipeline.
+
+After code changes have successfully passed the CI stages (Job 1 and Job 2), Jenkins automatically deploys the latest application version to an AWS EC2 instance.
+
+The purpose of Job 3 is to automate application deployment so developers can push changes and have them released without manually updating the server.
+
+Benefits of this approach:
+
+- Faster and more reliable deployments
+- Reduces manual deployment errors
+- Ensures tested code is automatically released
+- Provides a repeatable deployment process
+- Allows developers to make frequent updates safely
 
 
+---
 
-Jenkins CI/CD Pipeline - Job 3: CD Deployment to AWS EC2
-Overview
+# Complete CI/CD Pipeline Flow
 
-Job 3 is responsible for the Continuous Deployment (CD) stage of the Jenkins pipeline.
-
-After the application has passed testing in Job 2, Job 3 automatically deploys the latest application version to the AWS EC2 application server.
-
-The deployment process:
-
-Jenkins connects to the EC2 deployment node.
-Jenkins uses SSH credentials to authenticate.
-Application files are copied to the EC2 instance.
-Dependencies are installed.
-PM2 restarts or starts the Node.js application.
-The updated application becomes available through the browser.
-Job 3 Workflow
+```
 Developer
     |
-    | git push
+    | Push code changes
     ↓
 GitHub Repository
     |
+    | Webhook Trigger
     ↓
 Jenkins Job 1
-(Build Application)
+CI Testing
     |
     ↓
 Jenkins Job 2
-(Run Tests)
+Merge Dev → Main
     |
     ↓
 Jenkins Job 3
-(CD Deployment)
+Continuous Deployment
     |
     ↓
 AWS EC2 Instance
     |
     ↓
-PM2 Running Node.js App
-Jenkins Job 3 Configuration
-Build Trigger
+PM2 Node.js Application
+    |
+    ↓
+Updated Application Available
+```
 
-Job 3 is triggered after successful completion of previous pipeline stages.
+---
 
-Example:
+# Job 3 Workflow
 
+The deployment process:
+
+1. Job 3 is triggered after Job 2 completes successfully.
+2. Jenkins connects securely to the AWS EC2 deployment server.
+3. The latest application files are transferred to EC2.
+4. The Node.js application is updated.
+5. PM2 restarts the application.
+6. The updated frontend is available through the browser.
+
+---
+
+# Job 3 Configuration
+
+## Deployment Trigger
+
+Job 3 is connected to the previous Jenkins jobs.
+
+The pipeline runs in this order:
+
+```
 Job 1 → Job 2 → Job 3
-Deployment Stage
-SSH Authentication
+```
 
-Jenkins uses an SSH private key stored in Jenkins Credentials.
+This ensures that only tested and approved changes are deployed.
 
-Example Jenkins output:
+---
 
-[ssh-agent] Using credentials:
+# Authentication and Security
+
+Jenkins connects to AWS EC2 using SSH authentication.
+
+Security measures used:
+
+- SSH private key stored securely in Jenkins Credentials
+- SSH Agent plugin used during deployment
+- No passwords stored in the pipeline
+- EC2 security group controls SSH access
+
+Example Jenkins credential:
+
+```
 suhaib-ec2-key
-(SSH key for Job 3 deployment to AWS EC2 TTT app)
+```
 
-This allows Jenkins to securely connect to the EC2 instance.
+The SSH key allows Jenkins to securely authenticate with the EC2 instance and perform deployments.
 
-Copy Application Files
+---
 
-Jenkins copies the application files using SCP.
+# Deployment Result
 
-Command:
+After a successful deployment:
 
-scp -o StrictHostKeyChecking=no -r app ubuntu@EC2_IP:/home/ubuntu/
+```
+Jenkins
+   |
+   ↓
+AWS EC2 Server
+   |
+   ↓
+Updated Node.js Application
+   |
+   ↓
+New Frontend Version Visible
+```
 
-Purpose:
+The final result should be the latest code changes appearing on the application homepage.
 
-Transfers the latest application code.
-Updates the EC2 deployment directory.
-Avoids manual copying.
-Install Application Dependencies
+---
 
-After deployment, Jenkins installs Node.js packages:
+# Frontend Deployment Test 1
 
-npm install
+## Change Made
 
-Example:
+The first CD test updated the application footer timestamp.
 
-added 29 packages
-audited 30 packages
+File changed:
 
-found 0 vulnerabilities
-Application Restart Using PM2
-
-PM2 manages the Node.js application process.
-
-Command:
-
-pm2 restart ttt-app --update-env
-
-If the application does not exist:
-
-pm2 start index.js --name ttt-app
-
-Example output:
-
-[PM2] Starting /home/ubuntu/app/index.js
-[PM2] Done.
-
-name     status
-
-ttt-app  online
-
-PM2 keeps the application running after deployment.
-
-Test 1 - Footer Timestamp Deployment Change
-Change Made
-
-The application footer timestamp was updated in:
-
+```
 app/server.js
+```
 
-Before:
+Before deployment:
 
-const configuredTimestamp =
-process.env.APP_FOOTER_TIMESTAMP || '23/07/2026 17:12';
-
-After:
-
-const configuredTimestamp =
-process.env.APP_FOOTER_TIMESTAMP || '24/07/2026 14:00';
-Before Deployment Screenshot
-
-Insert screenshot here:
-
-[INSERT SCREENSHOT - BEFORE CD DEPLOYMENT]
-
-Footer showing:
-
+```
 v1.2.0 23/07/2026 17:12
-After Deployment Screenshot
+```
+
+After deployment:
+
+```
+v1.2.0 24/07/2026 14:00
+```
+
+---
+
+## Before Deployment Screenshot
 
 Insert screenshot here:
 
-[INSERT SCREENSHOT - AFTER CD DEPLOYMENT]
+```
+[INSERT SCREENSHOT]
+
+Before Job 3 deployment:
 
 Footer showing:
+v1.2.0 23/07/2026 17:12
+```
 
+---
+
+## After Deployment Screenshot
+
+Insert screenshot here:
+
+```
+[INSERT SCREENSHOT]
+
+After Job 3 deployment:
+
+Footer showing:
 v1.2.0 24/07/2026 14:00
-Deployment Verification
+```
 
-After Jenkins completed successfully:
+---
 
-Finished: SUCCESS
+## Test 1 Result
 
-The EC2 application was refreshed and the new timestamp was displayed.
+The first deployment test confirmed:
 
-This confirmed:
-
-✅ Git change pushed successfully
-✅ Jenkins detected the update
-✅ Job 3 deployed automatically
-✅ EC2 application updated
-✅ PM2 restarted the latest version
+✅ Frontend change committed successfully  
+✅ Jenkins pipeline triggered  
+✅ CI stages completed successfully  
+✅ Job 3 deployed the update to AWS EC2  
+✅ Updated timestamp displayed on the homepage  
 
 
+---
 
-# Completed CI/CD Pipeline Checklist
+# Frontend Deployment Test 2
 
-## Job 1 - CI Test
+## Change Made
+
+A second frontend update was completed to confirm the CD pipeline could repeatedly deploy new changes.
+
+The timestamp was updated from:
+
+```
+v1.2.0 24/07/2026 14:00
+```
+
+to:
+
+```
+v1.2.0 24/07/2026 15:40
+```
+
+---
+
+## Before Deployment Screenshot
+
+Insert screenshot here:
+
+```
+[INSERT SCREENSHOT]
+
+Before second deployment:
+
+Footer showing:
+v1.2.0 24/07/2026 14:00
+```
+
+---
+
+## After Deployment Screenshot
+
+Insert screenshot here:
+
+```
+[INSERT SCREENSHOT]
+
+After second deployment:
+
+Footer showing:
+v1.2.0 24/07/2026 15:40
+```
+
+---
+
+## Test 2 Result
+
+The second deployment test confirmed:
+
+✅ Developers can make multiple frontend changes  
+✅ Jenkins automatically redeploys updates  
+✅ AWS EC2 receives the latest version  
+✅ The application updates reliably after each deployment  
+
+
+---
+
+# Final CI/CD Pipeline Checklist
+
+## Job 1 - Continuous Integration (CI Testing)
 
 ✅ Jenkins job created  
 ✅ GitHub repository connected  
@@ -584,6 +670,8 @@ This confirmed:
 ✅ Automated tests run successfully  
 ✅ Job 1 triggers Job 2  
 
+
+---
 
 ## Job 2 - CI Merge
 
@@ -596,16 +684,32 @@ This confirmed:
 ✅ Merge completed successfully  
 
 
-## Job 3 - CD Deployment
+---
+
+## Job 3 - Continuous Deployment (CD)
 
 ✅ Jenkins deployment job created  
 ✅ AWS EC2 deployment server connected  
-✅ SSH credentials configured for EC2 access  
-✅ Application files copied to EC2 using SCP  
-✅ Node.js dependencies installed using npm install  
-✅ PM2 configured to manage Node.js application  
-✅ Application restarted automatically after deployment  
-✅ Deployment completed successfully  
-✅ Footer timestamp change deployed and verified  
-✅ Frontend UI colour change deployed and verified  
+✅ SSH authentication configured  
+✅ Application deployment automated  
+✅ Application files transferred successfully  
+✅ PM2 used to manage Node.js application  
+✅ Application restarted after deployment  
+✅ First frontend timestamp change deployed successfully  
+✅ Second frontend timestamp change deployed successfully  
 ✅ Latest application version running on AWS EC2  
+
+
+---
+
+# Conclusion
+
+The completed Jenkins CI/CD pipeline successfully automates the full software delivery process:
+
+- Developers push changes to GitHub
+- Jenkins automatically runs CI tests
+- Approved changes are merged into main
+- Jenkins deploys the application to AWS EC2
+- Users receive the latest application version automatically
+
+This provides a reliable, repeatable, and secure deployment workflow suitable for an organisation's development process.
