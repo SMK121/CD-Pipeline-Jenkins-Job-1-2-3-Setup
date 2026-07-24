@@ -558,7 +558,7 @@ v1.2.0 24/07/2026 14:00
 Insert screenshot here:
 
 ```
-https://github.com/user-attachments/assets/d589ffa4-3916-4fb1-a0fe-b934c1a34a3a
+![First CD Deployment](https://github.com/user-attachments/assets/d589ffa4-3916-4fb1-a0fe-b934c1a34a3a)
 
 
 
@@ -567,7 +567,7 @@ https://github.com/user-attachments/assets/d589ffa4-3916-4fb1-a0fe-b934c1a34a3a
 
 ## Second Deployment Change Screenshot
 
-https://github.com/user-attachments/assets/7a181ce1-9f37-417b-aba0-06c0c618e2c0
+![Second CD Deployment](https://github.com/user-attachments/assets/7a181ce1-9f37-417b-aba0-06c0c618e2c0)
 
 
 ---
