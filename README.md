@@ -553,33 +553,22 @@ v1.2.0 24/07/2026 14:00
 
 ---
 
-## Before Deployment Screenshot
+## First Deployment Change Screenshot
 
 Insert screenshot here:
 
 ```
-[INSERT SCREENSHOT]
+https://github.com/user-attachments/assets/d589ffa4-3916-4fb1-a0fe-b934c1a34a3a
 
-Before Job 3 deployment:
 
-Footer showing:
-v1.2.0 23/07/2026 17:12
-```
-
----
-
-## After Deployment Screenshot
-
-Insert screenshot here:
 
 ```
-[INSERT SCREENSHOT]
 
-After Job 3 deployment:
 
-Footer showing:
-v1.2.0 24/07/2026 14:00
-```
+## Second Deployment Change Screenshot
+
+https://github.com/user-attachments/assets/7a181ce1-9f37-417b-aba0-06c0c618e2c0
+
 
 ---
 
@@ -593,56 +582,6 @@ The first deployment test confirmed:
 ✅ Job 3 deployed the update to AWS EC2  
 ✅ Updated timestamp displayed on the homepage  
 
-
----
-
-# Frontend Deployment Test 2
-
-## Change Made
-
-A second frontend update was completed to confirm the CD pipeline could repeatedly deploy new changes.
-
-The timestamp was updated from:
-
-```
-v1.2.0 24/07/2026 14:00
-```
-
-to:
-
-```
-v1.2.0 24/07/2026 15:40
-```
-
----
-
-## Before Deployment Screenshot
-
-Insert screenshot here:
-
-```
-[INSERT SCREENSHOT]
-
-Before second deployment:
-
-Footer showing:
-v1.2.0 24/07/2026 14:00
-```
-
----
-
-## After Deployment Screenshot
-
-Insert screenshot here:
-
-```
-[INSERT SCREENSHOT]
-
-After second deployment:
-
-Footer showing:
-v1.2.0 24/07/2026 15:40
-```
 
 ---
 
