@@ -389,8 +389,10 @@ This method manually performs the same Git operations that Git Publisher automat
 
 ## Execute Shell Script
 
----
-echo "Fetching latest branches"
+```bash
+
+echo "Fetching latest 
+branches"
 git fetch origin
 
 echo "Switching to main branch"
@@ -493,9 +495,11 @@ Example commit:
 
 Merge remote-tracking branch 'origin/dev'
 
+---
+
 The preferred Jenkins approach is Git Publisher because it provides a cleaner automated way to update the main branch. The Execute Shell method was used as an alternative approach during development and troubleshooting to manually perform the same Git operations.
 
----
+```
 
 # Jenkins CI/CD Pipeline - Job 3 Continuous Deployment (CD)
 
