@@ -441,3 +441,162 @@ The deployment stage will:
 - Restart the application.
 - Verify the updated application is running.
 
+
+
+Jenkins CI/CD Pipeline - Job 3: CD Deployment to AWS EC2
+Overview
+
+Job 3 is responsible for the Continuous Deployment (CD) stage of the Jenkins pipeline.
+
+After the application has passed testing in Job 2, Job 3 automatically deploys the latest application version to the AWS EC2 application server.
+
+The deployment process:
+
+Jenkins connects to the EC2 deployment node.
+Jenkins uses SSH credentials to authenticate.
+Application files are copied to the EC2 instance.
+Dependencies are installed.
+PM2 restarts or starts the Node.js application.
+The updated application becomes available through the browser.
+Job 3 Workflow
+Developer
+    |
+    | git push
+    ↓
+GitHub Repository
+    |
+    ↓
+Jenkins Job 1
+(Build Application)
+    |
+    ↓
+Jenkins Job 2
+(Run Tests)
+    |
+    ↓
+Jenkins Job 3
+(CD Deployment)
+    |
+    ↓
+AWS EC2 Instance
+    |
+    ↓
+PM2 Running Node.js App
+Jenkins Job 3 Configuration
+Build Trigger
+
+Job 3 is triggered after successful completion of previous pipeline stages.
+
+Example:
+
+Job 1 → Job 2 → Job 3
+Deployment Stage
+SSH Authentication
+
+Jenkins uses an SSH private key stored in Jenkins Credentials.
+
+Example Jenkins output:
+
+[ssh-agent] Using credentials:
+suhaib-ec2-key
+(SSH key for Job 3 deployment to AWS EC2 TTT app)
+
+This allows Jenkins to securely connect to the EC2 instance.
+
+Copy Application Files
+
+Jenkins copies the application files using SCP.
+
+Command:
+
+scp -o StrictHostKeyChecking=no -r app ubuntu@EC2_IP:/home/ubuntu/
+
+Purpose:
+
+Transfers the latest application code.
+Updates the EC2 deployment directory.
+Avoids manual copying.
+Install Application Dependencies
+
+After deployment, Jenkins installs Node.js packages:
+
+npm install
+
+Example:
+
+added 29 packages
+audited 30 packages
+
+found 0 vulnerabilities
+Application Restart Using PM2
+
+PM2 manages the Node.js application process.
+
+Command:
+
+pm2 restart ttt-app --update-env
+
+If the application does not exist:
+
+pm2 start index.js --name ttt-app
+
+Example output:
+
+[PM2] Starting /home/ubuntu/app/index.js
+[PM2] Done.
+
+name     status
+
+ttt-app  online
+
+PM2 keeps the application running after deployment.
+
+Test 1 - Footer Timestamp Deployment Change
+Change Made
+
+The application footer timestamp was updated in:
+
+app/server.js
+
+Before:
+
+const configuredTimestamp =
+process.env.APP_FOOTER_TIMESTAMP || '23/07/2026 17:12';
+
+After:
+
+const configuredTimestamp =
+process.env.APP_FOOTER_TIMESTAMP || '24/07/2026 14:00';
+Before Deployment Screenshot
+
+Insert screenshot here:
+
+[INSERT SCREENSHOT - BEFORE CD DEPLOYMENT]
+
+Footer showing:
+
+v1.2.0 23/07/2026 17:12
+After Deployment Screenshot
+
+Insert screenshot here:
+
+[INSERT SCREENSHOT - AFTER CD DEPLOYMENT]
+
+Footer showing:
+
+v1.2.0 24/07/2026 14:00
+Deployment Verification
+
+After Jenkins completed successfully:
+
+Finished: SUCCESS
+
+The EC2 application was refreshed and the new timestamp was displayed.
+
+This confirmed:
+
+✅ Git change pushed successfully
+✅ Jenkins detected the update
+✅ Job 3 deployed automatically
+✅ EC2 application updated
+✅ PM2 restarted the latest version
