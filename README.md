@@ -403,77 +403,121 @@ git merge origin/dev
 
 echo "Pushing merged code to GitHub main branch"
 git push origin main
-Script Explanation
-Fetch Latest Branches
+```
+
+---
+
+## Script Explanation
+
+### Fetch Latest Branches
+
+```bash
 git fetch origin
+```
 
 Downloads the latest branch information from GitHub.
 
-Switch to Main Branch
+---
+
+### Switch to Main Branch
+
+```bash
 git checkout main
+```
 
 Moves Jenkins to the main branch before performing the merge.
 
-Merge Dev into Main
+---
+
+### Merge Dev into Main
+
+```bash
 git merge origin/dev
+```
 
 Merges the remote development branch into the main branch.
 
-origin/dev was used because Jenkins only had access to the remote branch and did not have a local dev branch.
+`origin/dev` was used because Jenkins only had access to the remote branch and did not have a local `dev` branch.
 
-Push Changes
+---
+
+### Push Changes
+
+```bash
 git push origin main
+```
 
 Uploads the updated main branch back to GitHub.
 
-SSH Agent Configuration
+---
+
+# SSH Agent Configuration
 
 SSH Agent was enabled in Jenkins.
 
 Credential used:
 
+```
 suhaib-jenkins-2gh-ttt-app
+```
 
 Purpose:
 
-Authenticate securely with GitHub.
-Allow Jenkins to fetch repository branches.
-Allow Jenkins to push merged changes back to GitHub.
+- Authenticate securely with GitHub.
+- Allow Jenkins to fetch repository branches.
+- Allow Jenkins to push merged changes back to GitHub.
 
 No passwords are stored inside the Jenkins job configuration.
 
-Job 2 Troubleshooting
+---
+
+# Job 2 Troubleshooting
 
 During the first merge attempt, the process failed.
 
 Original command:
 
+```bash
 git merge dev
+```
 
 Error:
 
+```
 merge: dev - not something we can merge
-Cause
+```
+
+## Cause
 
 Jenkins only had access to the remote branch:
 
+```
 origin/dev
+```
 
 It did not have a local branch called:
 
+```
 dev
-Fix
+```
+
+## Fix
 
 The merge command was changed to:
 
+```bash
 git merge origin/dev
+```
 
 After this change, the merge completed successfully.
 
-Successful Job 2 Result
+---
+
+# Successful Job 2 Result
 
 Example Jenkins output:
 
+```
 Fetching latest branches
 
 Switching to main branch
@@ -487,17 +531,25 @@ Pushing merged code to GitHub main branch
 Everything up-to-date
 
 Finished: SUCCESS
-GitHub Result
+```
+
+---
+
+# GitHub Result
 
 After successful completion, Jenkins updated the GitHub main branch.
 
 Example commit:
 
+```
 Merge remote-tracking branch 'origin/dev'
+```
 
 ---
 
-The preferred Jenkins approach is Git Publisher because it provides a cleaner automated way to update the main branch. The Execute Shell method was used as an alternative approach during development and troubleshooting to manually perform the same Git operations.
+The preferred Jenkins approach is **Git Publisher** because it provides a cleaner automated way to update the main branch.
+
+The **Execute Shell** method was used as an alternative approach during development and troubleshooting to manually perform the same Git operations.
 
 ```
 ---
