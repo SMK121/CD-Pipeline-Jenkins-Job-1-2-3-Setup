@@ -632,14 +632,13 @@ npm install
 pm2 restart ttt-app --update-env
 
 EOF
+```
 
-
----
 # Deployment Result
 
 After a successful deployment:
 
-```
+
 Jenkins
    |
    ↓
