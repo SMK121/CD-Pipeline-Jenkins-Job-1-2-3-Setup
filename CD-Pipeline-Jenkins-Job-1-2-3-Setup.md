@@ -701,7 +701,7 @@ Updated Node.js Application
    |
    ↓
 New Frontend Version Visible
-```
+---
 
 The final result should be the latest code changes appearing on the application homepage.
 
