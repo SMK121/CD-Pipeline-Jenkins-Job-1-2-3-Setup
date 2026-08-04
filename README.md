@@ -605,6 +605,36 @@ The SSH key allows Jenkins to securely authenticate with the EC2 instance and pe
 
 ---
 
+---
+
+# Job 3 Deployment Script
+
+The deployment stage uses an **Execute Shell** step in Jenkins to automate deployment to the AWS EC2 application server.
+
+The script performs the following tasks:
+
+- Copies the latest application code from Jenkins to AWS EC2.
+- Connects to the EC2 instance using SSH.
+- Installs required Node.js dependencies.
+- Restarts the Node.js application using PM2.
+
+## Execute Shell Script
+
+```bash
+scp -o StrictHostKeyChecking=no -r app ubuntu@EC2_IP:/home/ubuntu/
+
+ssh -o StrictHostKeyChecking=no ubuntu@EC2_IP << EOF
+
+cd /home/ubuntu/app
+
+npm install
+
+pm2 restart ttt-app --update-env
+
+EOF
+
+
+---
 # Deployment Result
 
 After a successful deployment:
